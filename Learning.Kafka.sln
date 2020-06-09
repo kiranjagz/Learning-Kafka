@@ -3,14 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Producer", "Producer\Producer.csproj", "{70CB1501-B96C-4B20-8A86-DA01BF1EB6D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Producer", "Producer\Producer.csproj", "{70CB1501-B96C-4B20-8A86-DA01BF1EB6D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consumer", "Consumer\Consumer.csproj", "{749E9DB7-6DD4-4C7F-A786-EA3A887C0F68}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Consumer", "Consumer\Consumer.csproj", "{749E9DB7-6DD4-4C7F-A786-EA3A887C0F68}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Helpful_Commands", "Helpful_Commands", "{8D47E615-CB7A-4E9F-9BC6-CD8E37EDF349}"
 	ProjectSection(SolutionItems) = preProject
 		kafka.txt = kafka.txt
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalR.Kafka", "SignalR.Kafka\SignalR.Kafka.csproj", "{497E1B23-3C3E-487F-BED9-76D435D80E72}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +28,10 @@ Global
 		{749E9DB7-6DD4-4C7F-A786-EA3A887C0F68}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{749E9DB7-6DD4-4C7F-A786-EA3A887C0F68}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{749E9DB7-6DD4-4C7F-A786-EA3A887C0F68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{497E1B23-3C3E-487F-BED9-76D435D80E72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{497E1B23-3C3E-487F-BED9-76D435D80E72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{497E1B23-3C3E-487F-BED9-76D435D80E72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{497E1B23-3C3E-487F-BED9-76D435D80E72}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
