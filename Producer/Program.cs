@@ -12,7 +12,7 @@ namespace Producer
         static async System.Threading.Tasks.Task Main(string[] args)
         {
             int count = 10;
-            var topic = "random";
+            var topic = "test";
             var key = $"kiran-{topic}";
 
             var config = new ProducerConfig
@@ -25,19 +25,27 @@ namespace Producer
 
             using (var producer = new ProducerBuilder<string, string>(config).Build())
             {
-                for (var i = 0; i <= count; i++)
+                try
                 {
-                    var randomModel = new RandomModel
+                    for (var i = 0; i <= count; i++)
                     {
-                        Key = key,
-                        Message = $"Message with count: {i}",
-                        RandomNumber = new Random().Next()
+                        var randomModel = new RandomModel
+                        {
+                            Key = key,
+                            Message = $"Message with count: {i}",
+                            RandomNumber = new Random().Next()
+                        };
+
+                        await producer.ProduceAsync(topic, new Message<string, string> { Key = key, Value = JsonConvert.SerializeObject(randomModel) });
                     };
 
-                    await producer.ProduceAsync(topic, new Message<string, string> { Key = key, Value = JsonConvert.SerializeObject(randomModel) });
-                };
+                    producer.Flush(TimeSpan.FromSeconds(35));
+                }
+                catch (Exception ex)
+                {
 
-                producer.Flush(TimeSpan.FromSeconds(35));
+                    throw;
+                }
             }
 
             Console.WriteLine($"{count} messages were produced to topic {topic}");

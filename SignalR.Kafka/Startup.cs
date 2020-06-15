@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SignalR.Kafka.Broker.Consumer;
 using SignalR.Kafka.Hubs;
 
 namespace SignalR.Kafka
@@ -26,6 +27,7 @@ namespace SignalR.Kafka
         {
             services.AddRazorPages();
             services.AddSignalR();
+            services.AddSingleton<IConsumer, KafkaConsumer>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,6 +56,8 @@ namespace SignalR.Kafka
                 endpoints.MapRazorPages();
                 endpoints.MapHub<ChatHub>("/chatHub");
             });
+
+            app.ApplicationServices.GetService<IConsumer>().ConsumerMessage();
         }
     }
 }
