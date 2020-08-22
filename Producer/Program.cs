@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using Producer.Model;
 using Producer.Topic.Creator;
 using System;
+using System.Collections.Generic;
 using System.Net;
 
 namespace Producer
@@ -12,8 +13,10 @@ namespace Producer
         static async System.Threading.Tasks.Task Main(string[] args)
         {
             int count = 10;
-            var topic = "test";
-            var key = $"kiran-{topic}";
+            var key = string.Empty;
+            List<string> topics = new List<string>();
+            topics.Add("test");
+            topics.Add("test2");
 
             var config = new ProducerConfig
             {
@@ -21,36 +24,45 @@ namespace Producer
                 ClientId = Dns.GetHostName()
             };
 
-            var createTopic = TopicHelper.CreateTopic(config, topic, 1, 1);
+            //Create a topic with 3 partions with a replication factor of 1
+            //var createTopic = TopicHelper.CreateTopic(config, topic, 3, 1);
 
             using (var producer = new ProducerBuilder<string, string>(config).Build())
             {
                 try
                 {
-                    for (var i = 0; i <= count; i++)
+                    topics.ForEach(async topic =>
                     {
-                        var randomModel = new RandomModel
+                        for (var i = 0; i <= count; i++)
                         {
-                            Key = key,
-                            Message = $"Message with count: {i}",
-                            RandomNumber = new Random().Next()
+                            if (i % 2 == 0)
+                            {
+                                key = "ev";
+                            }
+                            else { key = "od"; }
+
+                            var randomModel = new RandomModel
+                            {
+                                Key = key,
+                                Message = $"Message with count: {i}",
+                                RandomNumber = new Random().Next()
+                            };
+
+                            await producer.ProduceAsync(topic, new Message<string, string> { Key = key, Value = JsonConvert.SerializeObject(randomModel) });
+
+                            Console.WriteLine($"{count} messages were produced to on topic {topic}");
                         };
 
-                        await producer.ProduceAsync(topic, new Message<string, string> { Key = key, Value = JsonConvert.SerializeObject(randomModel) });
-                    };
-
-                    producer.Flush(TimeSpan.FromSeconds(35));
+                        producer.Flush(TimeSpan.FromSeconds(35));
+                    });
                 }
-                catch (Exception ex)
+                catch (Exception e)
                 {
-
-                    throw;
+                    Console.WriteLine($"Error has occurred: {e.Message}");
                 }
+
+                Console.Read();
             }
-
-            Console.WriteLine($"{count} messages were produced to topic {topic}");
-
-            Console.Read();
         }
     }
 }
